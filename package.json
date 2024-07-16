@@ -1,0 +1,37 @@
+{
+  "name": "@session.js/bun-network",
+  "version": "1.0.0",
+  "module": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sessionjs/bun-network.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sessionjs/bun-network/issues"
+  },
+  "homepage": "https://github.com/sessionjs/bun-network#readme",
+  "description": "Bun.sh network connector for @session.js/client",
+  "type": "module",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@session.js/errors": "1.0.3",
+    "@session.js/types": "1.0.3",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.6",
+    "@types/lodash": "^4.17.7"
+  }
+}
