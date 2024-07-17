@@ -1,6 +1,6 @@
 {
   "name": "@session.js/bun-network",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
@@ -19,14 +19,14 @@
     "dist/**/*.d.ts"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json"
+    "build": "rm -rf dist && tsc --project tsconfig.build.json"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@session.js/errors": "^1.0.9",
-    "@session.js/types": "1.0.4",
+    "@session.js/types": "^1.0.6",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
