@@ -4,7 +4,8 @@ import {
   type RequestPollBody,
   type RequestStoreBody,
   type RequestUploadAttachment,
-  type RequestDownloadAttachment
+  type RequestDownloadAttachment,
+  type RequestDeleteMessages
 } from '@session.js/types/network/request'
 import type { 
   ResponseGetSnodes, 
@@ -20,6 +21,7 @@ import { getSwarms } from './routes/get-swarms'
 import { poll } from './routes/poll'
 import { uploadAttachment } from './routes/upload-attachment'
 import { downloadAttachment } from './routes/download-attachment'
+import { deleteMessages } from './routes/delete-messages'
 
 export async function onRequest(type: RequestType.Store, body: RequestStoreBody): Promise<ResponseStore>
 export async function onRequest(type: RequestType.GetSnodes, body: object): Promise<ResponseGetSnodes>
@@ -45,6 +47,9 @@ export async function onRequest(type: RequestType, body: object): Promise<object
 
     case RequestType.DownloadAttachment:
       return await downloadAttachment(body as RequestDownloadAttachment)
+
+    case RequestType.DeleteMessages:
+      return await deleteMessages(body as RequestDeleteMessages)
 
     default:
       throw new Error('Invalid request type')

@@ -1,6 +1,6 @@
 {
   "name": "@session.js/bun-network",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@session.js/errors": "^1.0.9",
-    "@session.js/types": "^1.0.6",
+    "@session.js/types": "^1.0.8",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
