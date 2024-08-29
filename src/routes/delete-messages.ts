@@ -1,10 +1,12 @@
+import type { BunNetwork } from '../index'
 import { SessionFetchError, SessionFetchErrorCode } from '@session.js/errors'
 import { doSnodeBatchRequest } from '../batch-request'
 import type { RequestDeleteMessages } from '@session.js/types/network/request'
 import _ from 'lodash'
 
-export async function deleteMessages({ pubkey, pubkey_ed25519, signature, swarm, hashes }: RequestDeleteMessages): Promise<{}> {
-  const result = await doSnodeBatchRequest(
+export async function deleteMessages(this: BunNetwork, { pubkey, pubkey_ed25519, signature, swarm, hashes }: RequestDeleteMessages): Promise<{}> {
+  const result = await doSnodeBatchRequest.call(
+    this,
     [{
       method: 'delete', 
       params: {

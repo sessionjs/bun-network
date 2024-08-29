@@ -1,3 +1,4 @@
+import type { BunNetwork } from '../index'
 import { SessionFetchError, SessionFetchErrorCode } from '@session.js/errors'
 import { doSnodeBatchRequest } from '../batch-request'
 import type { DeleteByHashesFromNodeParams, DeleteFromNodeSubRequest, NotEmptyArrayOfBatchResults, StoreOnNodeParams, StoreOnNodeSubRequest } from '../snode-request-types'
@@ -6,8 +7,9 @@ import type { ResponseStore } from '@session.js/types/network/response'
 import type { Swarm } from '@session.js/types/swarm'
 import _ from 'lodash'
 
-export async function storeMessage({ swarm, data64, destination, namespace, timestamp, ttl }: RequestStoreBody): Promise<ResponseStore> {
-  const results = await storeOnNode(
+export async function storeMessage(this: BunNetwork, { swarm, data64, destination, namespace, timestamp, ttl }: RequestStoreBody): Promise<ResponseStore> {
+  const results = await storeOnNode.call(
+    this,
     swarm,
     [{
       data: data64,
@@ -25,12 +27,14 @@ export async function storeMessage({ swarm, data64, destination, namespace, time
  * @returns the Array of stored hashes if it is a success, or null
  */
 async function storeOnNode(
+  this: BunNetwork,
   swarm: Swarm,
   params: Array<StoreOnNodeParams>,
   toDeleteOnSequence: DeleteByHashesFromNodeParams | null
 ): Promise<NotEmptyArrayOfBatchResults> {
   const subRequests = buildStoreRequests(params, toDeleteOnSequence)
-  const result = await doSnodeBatchRequest(
+  const result = await doSnodeBatchRequest.call(
+    this,
     subRequests,
     { public_ip: swarm.ip, storage_port: Number(swarm.port), pubkey_ed25519: swarm.pubkey_ed25519, pubkey_x25519: swarm.pubkey_x25519 },
     4000,

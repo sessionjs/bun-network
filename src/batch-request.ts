@@ -1,5 +1,4 @@
-// CREDIT: OXEN, Session-Desktop
-// github.com/oxen-io/session-desktop
+import type { BunNetwork } from './index'
 
 import _ from 'lodash'
 import { snodeRpc } from './session-rpc'
@@ -36,6 +35,7 @@ export interface SnodeResponse {
  * @param method can be either batch or sequence. A batch call will run all calls even if one of them fails. A sequence call will stop as soon as the first one fails
  */
 export async function doSnodeBatchRequest(
+  this: BunNetwork,
   subRequests: Array<SnodeApiSubRequests>,
   targetNode: Snode,
   timeout: number,
@@ -47,7 +47,7 @@ export async function doSnodeBatchRequest(
       message: `batch subRequests count cannot be more than ${MAX_SUBREQUESTS_COUNT}. Got ${subRequests.length}`
     })
   }
-  const result = await snodeRpc({
+  const result = await snodeRpc.call(this, {
     method,
     params: { requests: subRequests },
     targetNode,

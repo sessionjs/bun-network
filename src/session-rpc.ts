@@ -1,3 +1,4 @@
+import type { BunNetwork } from './index'
 import https from 'https'
 import _ from 'lodash'
 import type { Snode } from '@session.js/types/snode'
@@ -14,6 +15,7 @@ export const ERROR_421_HANDLED_RETRY_REQUEST = '421 handled. Retry this request 
  * The
  */
 export async function snodeRpc(
+  this: BunNetwork,
   {
     method,
     params,
@@ -42,7 +44,7 @@ export async function snodeRpc(
     agent: null,
   }
 
-  return doRequest({
+  return doRequest.call(this, {
     url,
     options: fetchOptions,
     targetNode,
@@ -62,7 +64,7 @@ export interface LokiFetchOptions {
  * A small wrapper around node-fetch which deserializes response
  * returns insecureNodeFetch response or false
  */
-async function doRequest({
+async function doRequest(this: BunNetwork, {
   options,
   url,
   timeout,
@@ -93,7 +95,8 @@ async function doRequest({
       body: fetchOptions.body || undefined,
       tls: {
         rejectUnauthorized: false,
-      }
+      },
+      proxy: this.proxy
     })
   } catch(e) {
     throw new SessionFetchError({ code: SessionFetchErrorCode.FetchFailed, message: 'Couldn\'t fetch ' + url })

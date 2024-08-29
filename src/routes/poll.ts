@@ -9,13 +9,14 @@ import type { Snode } from '@session.js/types/snode'
 import type { RequestNamespace, RetrieveMessageItem, RetrieveMessagesResultsBatched, RetrieveMessagesResultsContent } from '@session.js/types/snode-retrieve'
 import type { Swarm } from '@session.js/types/swarm'
 import _ from 'lodash'
+import type { BunNetwork } from '../index'
 
-export async function poll({ swarm, namespaces }: RequestPollBody): Promise<ResponsePoll> {
+export async function poll(this: BunNetwork, { swarm, namespaces }: RequestPollBody): Promise<ResponsePoll> {
   if (namespaces.length === 0) {
     throw new SessionValidationError({ code: SessionValidationErrorCode.InvalidNamespaces, message: `invalid number of retrieve namespace provided: ${namespaces.length}` })
   }
   if (namespaces.some(ns => ns.namespace === 'all')) throw new SessionValidationError({ code: SessionValidationErrorCode.UnsupportedFeature, message: 'namespace "all" is not supported yet' })
-  const results = await pollSnode({ swarm, namespaces })
+  const results = await pollSnode.call(this, { swarm, namespaces })
   if (results === null) {
     throw new SessionFetchError({ code: SessionFetchErrorCode.InvalidResponse, message: 'Polling failed' })
   } else {
@@ -23,13 +24,14 @@ export async function poll({ swarm, namespaces }: RequestPollBody): Promise<Resp
   }
 }
 
-export async function pollSnode({ swarm, namespaces }: {
+export async function pollSnode(this: BunNetwork, { swarm, namespaces }: {
   swarm: Swarm
   namespaces: Array<RequestNamespace>;
 }): Promise<{ namespace: SnodeNamespaces, messages: RetrieveMessageItem[] }[]> {
   const request = await buildRetrieveRequest(namespaces)
 
-  const results = await retrieveNextMessages(
+  const results = await retrieveNextMessages.call(
+    this,
     { public_ip: swarm.ip, storage_port: Number(swarm.port), pubkey_ed25519: swarm.pubkey_ed25519, pubkey_x25519: swarm.pubkey_x25519 },
     request,
     namespaces.map(ns => ns.namespace as SnodeNamespaces),
@@ -41,6 +43,7 @@ export async function pollSnode({ swarm, namespaces }: {
 export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.'
 
 export async function retrieveNextMessages(
+  this: BunNetwork,
   targetNode: Snode,
   retrieveRequestsParams: RetrieveSubRequestType[],
   namespaces: Array<SnodeNamespaces>
@@ -48,7 +51,7 @@ export async function retrieveNextMessages(
   const timeOutMs = 4 * 1000
   const timeoutPromise = async () => new Promise(resolve => setTimeout(resolve, timeOutMs))
   const fetchPromise = async () =>
-    doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs)
+    doSnodeBatchRequest.call(this, retrieveRequestsParams, targetNode, timeOutMs)
 
   const results = await Promise.race([timeoutPromise(), fetchPromise()])
   if (!results || !_.isArray(results) || !results.length) {

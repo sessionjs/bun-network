@@ -1,9 +1,10 @@
+import type { BunNetwork } from '../index'
 import type { Snode } from '@session.js/types/snode'
 import { seeds } from '../seeds'
 import { SessionFetchError, SessionFetchErrorCode } from '@session.js/errors'
 import type { ResponseGetSnodes } from '@session.js/types/network/response'
 
-export async function getSnodes(): Promise<ResponseGetSnodes> {
+export async function getSnodes(this: BunNetwork): Promise<ResponseGetSnodes> {
   for(const seed of seeds) {
     try {
       const snode = seeds[0]
@@ -27,7 +28,8 @@ export async function getSnodes(): Promise<ResponseGetSnodes> {
         }),
         tls: {
           rejectUnauthorized: false
-        }
+        },
+        proxy: this.proxy
       })
       if (!snodesRequest.ok) {
         throw new Error('Failed to fetch snodes: ' + snodesRequest.statusText)
