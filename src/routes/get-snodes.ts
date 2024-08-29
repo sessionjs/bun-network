@@ -8,7 +8,7 @@ export async function getSnodes(this: BunNetwork): Promise<ResponseGetSnodes> {
   for(const seed of seeds) {
     try {
       const snode = seeds[0]
-      const snodesRequest = await fetch(`https://${snode.url}/json_rpc`, {
+      const snodesRequest = await fetch(`http://${snode.url}/json_rpc`, {
         headers: {
           'User-Agent': 'WhatsApp', // don't ask, it's a tradition: https://github.com/oxen-io/session-desktop/blob/48a245e13c3b9f99da93fc8fe79dfd5019cd1f0a/ts/session/apis/seed_node_api/SeedNodeAPI.ts#L259
         },
