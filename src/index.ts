@@ -68,8 +68,8 @@ export type ProxyOptions = {
 export class BunNetwork implements Network {
   proxy: string | undefined
 
-  constructor(options: { proxy?: ProxyOptions | string }) {
-    this.proxy = options.proxy && (
+  constructor(options?: { proxy?: ProxyOptions | string }) {
+    this.proxy = options?.proxy && (
       typeof options.proxy === 'string'
         ? options.proxy
         : (options.proxy.username && options.proxy.password)
