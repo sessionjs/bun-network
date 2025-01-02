@@ -5,11 +5,13 @@ import {
   type RequestStoreBody,
   type RequestUploadAttachment,
   type RequestDownloadAttachment,
-  type RequestDeleteMessages
+  type RequestDeleteMessages,
+  type RequestSogs
 } from '@session.js/types/network/request'
 import type { 
   ResponseGetSnodes, 
   ResponseGetSwarms, 
+  ResponseSogsRequest, 
   ResponseStore, 
   ResponseUploadAttachment
 } from '@session.js/types/network/response'
@@ -22,6 +24,7 @@ import { poll } from './routes/poll'
 import { uploadAttachment } from './routes/upload-attachment'
 import { downloadAttachment } from './routes/download-attachment'
 import { deleteMessages } from './routes/delete-messages'
+import { sogsRequest } from './routes/sogs-request'
 import { SessionFetchError, SessionFetchErrorCode } from '@session.js/errors'
 
 export async function onRequest(this: BunNetwork, type: RequestType.Store, body: RequestStoreBody): Promise<ResponseStore>
@@ -29,6 +32,7 @@ export async function onRequest(this: BunNetwork, type: RequestType.GetSnodes, b
 export async function onRequest(this: BunNetwork, type: RequestType.GetSwarms, body: RequestGetSwarmsBody): Promise<ResponseGetSwarms>
 export async function onRequest(this: BunNetwork, type: RequestType.UploadAttachment, body: RequestUploadAttachment): Promise<ResponseUploadAttachment>
 export async function onRequest(this: BunNetwork, type: RequestType.DownloadAttachment, body: RequestDownloadAttachment): Promise<ArrayBuffer>
+export async function onRequest(this: BunNetwork, type: RequestType.SOGSRequest, body: RequestSogs): Promise<object>
 export async function onRequest(this: BunNetwork, type: RequestType, body: object): Promise<object> {
   switch(type) {
     case RequestType.Store:
@@ -51,6 +55,9 @@ export async function onRequest(this: BunNetwork, type: RequestType, body: objec
 
     case RequestType.DeleteMessages:
       return await deleteMessages.call(this, body as RequestDeleteMessages)
+
+    case RequestType.SOGSRequest:
+      return await sogsRequest.call(this, body as RequestSogs) as object
 
     default:
       throw new SessionFetchError({ code: SessionFetchErrorCode.UnknownMethod, message: 'Invalid request type' })
