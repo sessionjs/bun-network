@@ -31,7 +31,7 @@ export async function onRequest(this: BunNetwork, type: RequestType.Store, body:
 export async function onRequest(this: BunNetwork, type: RequestType.GetSnodes, body: object): Promise<ResponseGetSnodes>
 export async function onRequest(this: BunNetwork, type: RequestType.GetSwarms, body: RequestGetSwarmsBody): Promise<ResponseGetSwarms>
 export async function onRequest(this: BunNetwork, type: RequestType.UploadAttachment, body: RequestUploadAttachment): Promise<ResponseUploadAttachment>
-export async function onRequest(this: BunNetwork, type: RequestType.DownloadAttachment, body: RequestDownloadAttachment): Promise<ArrayBuffer>
+export async function onRequest(this: BunNetwork, type: RequestType.DownloadAttachment, body: RequestDownloadAttachment): Promise<Uint8Array>
 export async function onRequest(this: BunNetwork, type: RequestType.SOGSRequest, body: RequestSogs): Promise<object>
 export async function onRequest(this: BunNetwork, type: RequestType, body: object): Promise<object> {
   switch(type) {

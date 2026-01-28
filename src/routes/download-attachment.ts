@@ -5,7 +5,7 @@ import {
 } from '@session.js/errors'
 import type { RequestDownloadAttachment } from '@session.js/types/network/request'
 
-export async function downloadAttachment(this: BunNetwork, body: RequestDownloadAttachment): Promise<ArrayBuffer> {
+export async function downloadAttachment(this: BunNetwork, body: RequestDownloadAttachment): Promise<Uint8Array> {
   if (!/^\d+$/.test(body.id)) {
     throw new SessionValidationError({ code: SessionValidationErrorCode.InvalidMessage, message: 'File ID must be a number' })
   }
@@ -18,5 +18,5 @@ export async function downloadAttachment(this: BunNetwork, body: RequestDownload
       message: 'Couldn\'t download file from filev2 server'
     })
   }
-  return await response.arrayBuffer()
+  return new Uint8Array(await response.arrayBuffer())
 }

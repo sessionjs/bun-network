@@ -79,7 +79,7 @@ async function buildRetrieveRequest(
 ): Promise<Array<RetrieveSubRequestType>> {
   const maxSizeMap = SnodeNamespace.maxSizeMap(namespaces.map(ns => ns.namespace as SnodeNamespaces))
   const retrieveRequestsParams: Array<RetrieveSubRequestType> = await Promise.all(
-    namespaces.map(async ({ namespace, pubkey, isOurPubkey, lastHash, signature }) => {
+    namespaces.map(({ namespace, pubkey, isOurPubkey, lastHash, signature }) => {
       const foundMaxSize = maxSizeMap.find(m => m.namespace === namespace)?.maxSize
       const retrieveParam = {
         pubkey: pubkey,
