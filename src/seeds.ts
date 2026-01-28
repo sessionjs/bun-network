@@ -3,7 +3,7 @@
 // it also does not allow to use any other libraries to make fetch requests
 // which lefts us with no way to implement this feature
 
-export const isLinux = () => process.platform === 'linux'
+export const isLinux = () => process.platform === "linux";
 
 const storageSeed1Crt = `-----BEGIN CERTIFICATE-----
 MIIEDTCCAvWgAwIBAgIUWk96HLAovn4uFSI057KhnMxqosowDQYJKoZIhvcNAQEL
@@ -29,7 +29,7 @@ u91MR4h034G6LIYCiM99ldc8Q5a5WCKu9/9z6CtVxZcNlfe477d6lKHSwb3mQ581
 b/Rujkuy7rFW78Q1BuHWrQPbJ3RU2CKh1j5o6mtcJFRqP1PfqWmbuaomam48s5hU
 4JEiR9tyxP+ewl/bToFcet+5Lp9wRLxn0afm/3V00WyP
 -----END CERTIFICATE-----
-`
+`;
 
 const storageSeed2Crt = `-----BEGIN CERTIFICATE-----
 MIIEDTCCAvWgAwIBAgIUXkVaUNO/G727mNeaiso9MjvBEm4wDQYJKoZIhvcNAQEL
@@ -55,7 +55,7 @@ KK3siJb3W0eKykHnheQPn77RulVBNLz1yedEUTVkkuVhzSUj5yc8tiwrcagwWX6m
 BlfVCJgsBbrJ754rg0AJ0k59wriRamimcUIBvKIo3g3UhJHDI8bt4+SvsRYkSmbi
 rzVthAlJjSlRA28X/OLnknWcgEdkGhu0F1tkBtVjIQXd
 -----END CERTIFICATE-----
-`
+`;
 
 const storageSeed3Crt = `-----BEGIN CERTIFICATE-----
 MIIEDTCCAvWgAwIBAgIUTz5rHKUe+VA9IM6vY6QACc0ORFkwDQYJKoZIhvcNAQEL
@@ -81,27 +81,30 @@ oKkJc5EcMYFsd00FnnFcO2U8lQoL6PB/tdcEmpOfqtvShpNhp8SbadSNiqlttvtV
 8A16/WDvZOMWCjOqJsFBw15WzosW9kyNwBtZinXVO3LW/7tVl08PDcarpH4IWjd0
 LDpU7zGjcD/A19tfdfMFTOmETuq40I8xxtlR2NENFOAL
 -----END CERTIFICATE-----
-`
+`;
 
 export const seed1 = {
-  url: 'seed1.getsession.org',
-  certContent: isLinux() ? storageSeed1Crt : Buffer.from(storageSeed1Crt, 'utf-8').toString(),
-  pubkey256: 'mlYTXvkmIEYcpswANTpnBwlz9Cswi0py/RQKkbdQOZQ=',
-  cert256: '36:EA:0B:25:35:37:98:85:51:EE:85:6E:4F:D2:0D:55:01:1E:9C:8B:27:EA:A2:F3:4B:8F:32:A0:BD:F0:4F:2D'
-}
+	url: "seed1.getsession.org",
+	certContent: isLinux() ? storageSeed1Crt : Buffer.from(storageSeed1Crt, "utf-8").toString(),
+	pubkey256: "mlYTXvkmIEYcpswANTpnBwlz9Cswi0py/RQKkbdQOZQ=",
+	cert256:
+		"36:EA:0B:25:35:37:98:85:51:EE:85:6E:4F:D2:0D:55:01:1E:9C:8B:27:EA:A2:F3:4B:8F:32:A0:BD:F0:4F:2D",
+};
 
 export const seed2 = {
-  url: 'seed2.getsession.org',
-  certContent: isLinux() ? storageSeed2Crt : Buffer.from(storageSeed2Crt, 'utf-8').toString(),
-  pubkey256: 'ZuUxe4wopBR83Yy5fePPNX0c00BnkQCu/49oapFpB0k=',
-  cert256: 'C5:90:8D:D4:13:9A:CD:96:AE:DD:1E:45:57:65:97:65:08:09:C8:A5:EA:02:AF:55:6D:48:53:D4:53:96:E0:E7'
-}
+	url: "seed2.getsession.org",
+	certContent: isLinux() ? storageSeed2Crt : Buffer.from(storageSeed2Crt, "utf-8").toString(),
+	pubkey256: "ZuUxe4wopBR83Yy5fePPNX0c00BnkQCu/49oapFpB0k=",
+	cert256:
+		"C5:90:8D:D4:13:9A:CD:96:AE:DD:1E:45:57:65:97:65:08:09:C8:A5:EA:02:AF:55:6D:48:53:D4:53:96:E0:E7",
+};
 
 export const seed3 = {
-  url: 'seed3.getsession.org',
-  certContent: isLinux() ? storageSeed3Crt : Buffer.from(storageSeed3Crt, 'utf-8').toString(),
-  pubkey256: '4xe+8k1NjxerVTjUsWlZJNKt3PA7Y31pUls2tHYippA=',
-  cert256: '8A:0A:F2:C7:12:34:2F:22:CE:00:E5:3C:16:01:41:0E:F8:D8:41:56:AE:E0:A9:80:9C:32:F6:F7:EF:BE:55:6E'
-}
+	url: "seed3.getsession.org",
+	certContent: isLinux() ? storageSeed3Crt : Buffer.from(storageSeed3Crt, "utf-8").toString(),
+	pubkey256: "4xe+8k1NjxerVTjUsWlZJNKt3PA7Y31pUls2tHYippA=",
+	cert256:
+		"8A:0A:F2:C7:12:34:2F:22:CE:00:E5:3C:16:01:41:0E:F8:D8:41:56:AE:E0:A9:80:9C:32:F6:F7:EF:BE:55:6E",
+};
 
-export const seeds = [seed1, seed2, seed3]
+export const seeds = [seed1, seed2, seed3];

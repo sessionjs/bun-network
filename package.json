@@ -1,36 +1,45 @@
 {
-  "name": "@session.js/bun-network",
-  "version": "1.0.13",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sessionjs/bun-network.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sessionjs/bun-network/issues"
-  },
-  "homepage": "https://github.com/sessionjs/bun-network#readme",
-  "description": "Bun.sh network connector for @session.js/client",
-  "type": "module",
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.d.ts"
-  ],
-  "scripts": {
-    "build": "rm -rf dist && tsc --project tsconfig.build.json"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@session.js/errors": "^1.0.10",
-    "@session.js/types": "^1.0.11",
-    "lodash": "^4.17.21"
-  },
-  "devDependencies": {
-    "@types/bun": "^1.1.6",
-    "@types/lodash": "^4.17.7"
-  }
+	"name": "@session.js/bun-network",
+	"version": "1.0.14",
+	"description": "Bun.sh network connector for @session.js/client",
+	"homepage": "https://git.hloth.dev/session.js/bun-network#readme",
+	"bugs": {
+		"url": "https://git.hloth.dev/session.js/bun-network/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://git.hloth.dev/session.js/bun-network.git"
+	},
+	"funding": "https://hloth.dev/donate",
+	"license": "MIT",
+	"author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist/**/*.js",
+		"dist/**/*.d.ts",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"build": "rm -rf dist && tsc --project tsconfig.build.json"
+	},
+	"dependencies": {
+		"@session.js/errors": "^1.0.11",
+		"@session.js/types": "^1.0.14",
+		"lodash": "^4.17.21"
+	},
+	"devDependencies": {
+		"@eslint/compat": "^2.0.1",
+		"@eslint/js": "^9.39.2",
+		"@types/bun": "^1.1.6",
+		"@types/lodash": "^4.17.7",
+		"eslint-config-prettier": "^10.1.8",
+		"prettier": "^3.8.0",
+		"typescript-eslint": "^8.53.1"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
 }

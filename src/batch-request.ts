@@ -1,15 +1,15 @@
-import type { BunNetwork } from './index'
+import type { BunNetwork } from "./index";
 
-import _ from 'lodash'
-import { snodeRpc } from './session-rpc'
+import _ from "lodash";
+import { snodeRpc } from "./session-rpc";
 import {
-  MAX_SUBREQUESTS_COUNT,
-  type NotEmptyArrayOfBatchResults,
-  type SnodeApiSubRequests,
-} from './snode-request-types'
-import type { Snode } from '@session.js/types/snode'
-import { SessionRuntimeError, SessionRuntimeErrorCode } from '@session.js/errors'
-import { SessionFetchError, SessionFetchErrorCode } from '@session.js/errors'
+	MAX_SUBREQUESTS_COUNT,
+	type NotEmptyArrayOfBatchResults,
+	type SnodeApiSubRequests,
+} from "./snode-request-types";
+import type { Snode } from "@session.js/types/snode";
+import { SessionRuntimeError, SessionRuntimeErrorCode } from "@session.js/errors";
+import { SessionFetchError, SessionFetchErrorCode } from "@session.js/errors";
 
 /**
  * When sending a request over onion, we might get two status.
@@ -20,9 +20,9 @@ import { SessionFetchError, SessionFetchErrorCode } from '@session.js/errors'
  * you will get a 200 on the request itself, but the json you get will contain the real status.
  */
 export interface SnodeResponse {
-  bodyBinary: Uint8Array | null;
-  body: string;
-  status?: number;
+	bodyBinary: Uint8Array | null;
+	body: string;
+	status?: number;
 }
 
 /**
@@ -35,73 +35,73 @@ export interface SnodeResponse {
  * @param method can be either batch or sequence. A batch call will run all calls even if one of them fails. A sequence call will stop as soon as the first one fails
  */
 export async function doSnodeBatchRequest(
-  this: BunNetwork,
-  subRequests: Array<SnodeApiSubRequests>,
-  targetNode: Snode,
-  timeout: number,
-  method: 'batch' | 'sequence' = 'batch'
+	this: BunNetwork,
+	subRequests: Array<SnodeApiSubRequests>,
+	targetNode: Snode,
+	timeout: number,
+	method: "batch" | "sequence" = "batch",
 ): Promise<NotEmptyArrayOfBatchResults> {
-  if (subRequests.length > MAX_SUBREQUESTS_COUNT) {
-    throw new SessionRuntimeError({
-      code: SessionRuntimeErrorCode.Generic,
-      message: `batch subRequests count cannot be more than ${MAX_SUBREQUESTS_COUNT}. Got ${subRequests.length}`
-    })
-  }
-  const result = await snodeRpc.call(this, {
-    method,
-    params: { requests: subRequests },
-    targetNode,
-    timeout,
-  })
-  if (!result) {
-    throw new SessionFetchError({
-      code: SessionFetchErrorCode.FetchFailed,
-      message: `Couldn't connect to ${targetNode.public_ip}:${targetNode.storage_port}`
-    })
-  }
-  const decoded = decodeBatchRequest(result)
+	if (subRequests.length > MAX_SUBREQUESTS_COUNT) {
+		throw new SessionRuntimeError({
+			code: SessionRuntimeErrorCode.Generic,
+			message: `batch subRequests count cannot be more than ${MAX_SUBREQUESTS_COUNT}. Got ${subRequests.length}`,
+		});
+	}
+	const result = await snodeRpc.call(this, {
+		method,
+		params: { requests: subRequests },
+		targetNode,
+		timeout,
+	});
+	if (!result) {
+		throw new SessionFetchError({
+			code: SessionFetchErrorCode.FetchFailed,
+			message: `Couldn't connect to ${targetNode.public_ip}:${targetNode.storage_port}`,
+		});
+	}
+	const decoded = decodeBatchRequest(result);
 
-  // if (decoded?.length) {
-  //   for (let index = 0; index < decoded.length; index++) {
-  // const resultRow = decoded[index]
-  // // eslint-disable-next-line no-await-in-loop
-  // await processOnionRequestErrorAtDestination({
-  //   statusCode: resultRow.code,
-  //   body: JSON.stringify(resultRow.body),
-  //   associatedWith: associatedWith || undefined,
-  //   destinationSnodeEd25519: targetNode.pubkey_ed25519,
-  // })
-  //   }
-  // }
+	// if (decoded?.length) {
+	//   for (let index = 0; index < decoded.length; index++) {
+	// const resultRow = decoded[index]
+	// // eslint-disable-next-line no-await-in-loop
+	// await processOnionRequestErrorAtDestination({
+	//   statusCode: resultRow.code,
+	//   body: JSON.stringify(resultRow.body),
+	//   associatedWith: associatedWith || undefined,
+	//   destinationSnodeEd25519: targetNode.pubkey_ed25519,
+	// })
+	//   }
+	// }
 
-  return decoded
+	return decoded;
 }
 
 /**
  * Make sure the global batch status code is 200, parse the content as json and return it
  */
 function decodeBatchRequest(snodeResponse: SnodeResponse): NotEmptyArrayOfBatchResults {
-  if (snodeResponse.status !== 200) {
-    throw new SessionRuntimeError({ 
-      code: SessionRuntimeErrorCode.Generic,
-      message: `decodeBatchRequest invalid status code: ${snodeResponse.status}`
-    })
-  }
-  const parsed = JSON.parse(snodeResponse.body)
+	if (snodeResponse.status !== 200) {
+		throw new SessionRuntimeError({
+			code: SessionRuntimeErrorCode.Generic,
+			message: `decodeBatchRequest invalid status code: ${snodeResponse.status}`,
+		});
+	}
+	const parsed = JSON.parse(snodeResponse.body);
 
-  if (!_.isArray(parsed.results)) {
-    throw new SessionRuntimeError({ 
-      code: SessionRuntimeErrorCode.Generic,
-      message: 'decodeBatchRequest results is not an array'
-    })
-  }
+	if (!_.isArray(parsed.results)) {
+		throw new SessionRuntimeError({
+			code: SessionRuntimeErrorCode.Generic,
+			message: "decodeBatchRequest results is not an array",
+		});
+	}
 
-  if (!parsed.results.length) {
-    throw new SessionRuntimeError({ 
-      code: SessionRuntimeErrorCode.Generic,
-      message: 'decodeBatchRequest results an empty array'
-    })
-  }
+	if (!parsed.results.length) {
+		throw new SessionRuntimeError({
+			code: SessionRuntimeErrorCode.Generic,
+			message: "decodeBatchRequest results an empty array",
+		});
+	}
 
-  return parsed.results
+	return parsed.results;
 }
