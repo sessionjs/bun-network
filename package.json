@@ -1,6 +1,6 @@
 {
 	"name": "@session.js/bun-network",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"description": "Bun.sh network connector for @session.js/client",
 	"homepage": "https://git.hloth.dev/session.js/bun-network#readme",
 	"bugs": {
@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"@session.js/errors": "^1.0.11",
-		"@session.js/types": "^1.0.14",
+		"@session.js/types": "^1.0.19",
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
